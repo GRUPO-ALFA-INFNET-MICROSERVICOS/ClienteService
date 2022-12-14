@@ -13,9 +13,5 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Rabbit\" />
-  </ItemGroup>
-
 
 </Project>
