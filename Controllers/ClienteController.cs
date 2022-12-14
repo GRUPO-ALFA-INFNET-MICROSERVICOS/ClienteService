@@ -28,7 +28,7 @@ namespace ClienteService.Controllers
         public async Task<List<ClienteModel>> GetAll()
         {
            var listaClientes = _clienteServices.ListarClientes();
-            return await listaClientes;
+           return await listaClientes;
 
         }
 
@@ -73,7 +73,6 @@ namespace ClienteService.Controllers
         {
             if (_clienteServices.GetCliente(id) != null)
             {
-
                 await _clienteServices.DeleteCliente(id);
                 return true;
             }
