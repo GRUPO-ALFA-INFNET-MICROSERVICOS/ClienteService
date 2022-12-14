@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClienteService", "ClienteService.csproj", "{A42C47E3-346E-467F-8738-1A49CEDA5AFD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflow", "workflow", "{5F2BE9ED-77AC-493F-86FF-153C765CF80C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5F2BE9ED-77AC-493F-86FF-153C765CF80C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{272BBC4B-FDF6-425A-BDC3-7ADDA70FA004}"
 	ProjectSection(SolutionItems) = preProject
-		integ.txt = integ.txt
+		docker-img.yml = docker-img.yml
 	EndProjectSection
 EndProject
 Global
@@ -23,6 +25,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{272BBC4B-FDF6-425A-BDC3-7ADDA70FA004} = {5F2BE9ED-77AC-493F-86FF-153C765CF80C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BE88D64-2B73-478C-80C1-3223A97D46B4}

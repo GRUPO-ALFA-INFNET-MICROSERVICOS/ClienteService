@@ -32,4 +32,4 @@ jobs:
         run: docker build -t guilhermesav/cliente-service:$(date +%y%m%d).$(git rev-parse --short "$GITHUB_SHA") .
         
       - name: Push to Docker Hub
-        run: docker push -a guilhermesav/cliente-service
+        run: docker push -a  guilhermesav/cliente-service
