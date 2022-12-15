@@ -17,10 +17,12 @@ namespace ClienteService.Controllers
     public class ClienteController : ControllerBase
     {
         private IClienteService _clienteServices;
+        private ILojaService _lojaService;
 
-        public ClienteController(IClienteService clienteServices)
+        public ClienteController(IClienteService clienteServices, ILojaService lojaService)
         {
             _clienteServices = clienteServices;
+            _lojaService = lojaService;
         }
 
         // GET: api/<ClienteController>
@@ -46,8 +48,6 @@ namespace ClienteService.Controllers
             {
                 return await cliente;
             }  
-          
-
            
         }
 
@@ -92,5 +92,14 @@ namespace ClienteService.Controllers
                 return false;
             }
         }
+        [HttpGet("loja")]
+        public async Task<List<LojaValueObject>> GetAllLojas()
+        { 
+            var listaLojas = _lojaService.GetAllLojas();
+            
+            return await listaLojas;
+
+        }
+
     }
 }
