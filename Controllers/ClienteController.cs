@@ -34,15 +34,26 @@ namespace ClienteService.Controllers
 
         // GET api/<ClienteController>/5
         [HttpGet("{id}")]
-        public async Task<ClienteModel> GetCliente(Guid id)
+        public async Task<ActionResult<ClienteModel>> GetCliente(Guid id)
         {
+                
             var cliente = _clienteServices.GetCliente(id);
-            return await cliente;
+            if (cliente.Result == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return await cliente;
+            }  
+          
+
+           
         }
 
         // POST api/<ClienteController>
         [HttpPost]
-        public async Task<ClienteModel> Post([FromBody] ClienteModel clienteModel)
+        public async Task<ActionResult<ClienteModel>> Post([FromBody] ClienteModel clienteModel)
         {
             clienteModel.Id = Guid.NewGuid();
             var cliente = _clienteServices.CreateCliente(clienteModel);
