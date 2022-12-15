@@ -98,7 +98,6 @@ namespace ClienteService.Controllers
             var listaLojas = _lojaService.GetAllLojas();
             
             return await listaLojas;
-
         }
 
     }
