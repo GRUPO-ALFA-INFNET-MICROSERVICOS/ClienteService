@@ -1,4 +1,5 @@
 ﻿using ClienteService.Model;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,15 @@ namespace ClienteService.Repositorio
     public class ClienteRepositorio : IClienteRepositorio
     {
         static List<ClienteModel> listaClientes = new List<ClienteModel>();
-       
+        
         public async Task<ClienteModel> CreateCliente(ClienteModel clienteModel)
         {
+
+            MongoHelper.ConnectMongoService();
+            MongoHelper.ClienteCollection = MongoHelper.database.GetCollection<ClienteModel>("clientes");
+            await MongoHelper.ClienteCollection.InsertOneAsync(clienteModel);
             listaClientes.Add(clienteModel);
+           
             return await Task.FromResult(clienteModel);
         }
 
@@ -20,8 +26,8 @@ namespace ClienteService.Repositorio
         {
             if (id != null)
             {
-                var cliente = GetCliente(id).Result;
-                listaClientes.Remove(cliente);
+                var collection = MongoHelper.ClienteCollection = MongoHelper.database.GetCollection<ClienteModel>("clientes");
+                var result = collection.DeleteOne(client => client.Id == id);
                 return await Task.FromResult(true);
             }
             else
@@ -32,20 +38,29 @@ namespace ClienteService.Repositorio
 
         public async Task<ClienteModel> GetCliente(Guid id)
         {
-            var cliente = Task.FromResult(listaClientes.Where(x => x.Id == id).FirstOrDefault());
-            return await cliente;
+            MongoHelper.ConnectMongoService();
+            MongoHelper.ClienteCollection = MongoHelper.database.GetCollection<ClienteModel>("clientes");
+            var filter = Builders<ClienteModel>.Filter.Eq("_id", id);
+            var result = Task.FromResult(MongoHelper.ClienteCollection.Find(filter).FirstOrDefault());
+            return await result;
         }
 
         public async Task<List<ClienteModel>> ListarClientes()
         {
-            return await Task.FromResult(listaClientes);
+            MongoHelper.ConnectMongoService();
+            MongoHelper.ClienteCollection = MongoHelper.database.GetCollection<ClienteModel>("clientes");
+            var filter = Builders<ClienteModel>.Filter.Ne("_id", "");
+            var result = MongoHelper.ClienteCollection.FindAsync(filter).Result.ToListAsync();
+            return await result;
         }
 
         public async Task<ClienteModel> UpdateCliente(Guid id,ClienteModel clienteModel)
         {
-            await DeleteCliente(id);
-            listaClientes.Add(clienteModel);
+            var cliente = GetCliente(id).Result;
+            var collection = MongoHelper.database.GetCollection<ClienteModel>("clientes");
+            collection.ReplaceOne(cliente => cliente.Id == id, clienteModel);
             return await Task.FromResult(clienteModel);
+            
         }
     }
 }
